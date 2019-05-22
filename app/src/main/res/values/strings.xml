@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SHACKLES</string>
+    <string name="question_title1">WHICH PICTURE DO YOU LIKE?</string>
+
 </resources>
