@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">SHACKLES</string>
     <string name="question_title1">WHICH PICTURE DO YOU LIKE?</string>
-
+    <string name="insta_Login">Instagram Login</string>
 </resources>

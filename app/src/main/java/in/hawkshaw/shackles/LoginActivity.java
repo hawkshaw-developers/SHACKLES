@@ -3,8 +3,16 @@ package in.hawkshaw.shackles;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-public class LoginActivity extends AppCompatActivity {
+import in.hawkshaw.shackles.model.Constant;
+
+public class LoginActivity extends AppCompatActivity implements OAuthDialogListener{
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +26,26 @@ public class LoginActivity extends AppCompatActivity {
         }
         else{
             setContentView(R.layout.activity_login);
+
         }
 
+    }
+
+    public void instaLogin(View vew){
+
+        InstagramDialog dialog = new InstagramDialog(LoginActivity.this , Constant.INSTA_LOGIN_URL , this);
+        Log.d("dialog","error");
+        dialog.show();
+
+    }
+
+    @Override
+    public void onComplete(String accessToken) {
+        Log.d("suucess", "onComplete: "+accessToken);
+    }
+
+    @Override
+    public void onError(String error) {
+        Log.d("Error","desc"+error);
     }
 }
