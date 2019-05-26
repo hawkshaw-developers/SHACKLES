@@ -2,5 +2,7 @@
     <string name="app_name">SHACKLES</string>
     <string name="question_title1">WHICH PICTURE DO YOU LIKE?</string>
     <string name="insta_Login">Instagram Login</string>
-    <string name="propic_select">Instagram Login</string>
+    <string name="propic_select">Profile picture</string>
+    <string name="propic_icon">select</string>
+
 </resources>
