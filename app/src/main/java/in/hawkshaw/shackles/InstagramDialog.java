@@ -11,8 +11,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
