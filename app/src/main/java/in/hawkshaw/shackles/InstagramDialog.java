@@ -106,6 +106,7 @@ public class InstagramDialog extends Dialog {
             if (url.startsWith(Constant.REDIRECT_URI)) {
                 String urls[] = url.split("=");
                 mListener.onComplete(urls[1]);
+                Log.d(TAG , urls[1]);
                 InstagramDialog.this.dismiss();
                 return true;
             }
