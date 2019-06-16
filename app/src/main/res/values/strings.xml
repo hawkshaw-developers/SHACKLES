@@ -4,5 +4,5 @@
     <string name="insta_Login">Instagram Login</string>
     <string name="propic_select">Profile picture</string>
     <string name="propic_icon">select</string>
-
+    <string name="upload_image_insta">Upload Images From Instagram</string>
 </resources>

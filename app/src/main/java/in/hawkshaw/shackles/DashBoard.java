@@ -1,11 +1,13 @@
 package in.hawkshaw.shackles;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,6 +48,16 @@ public class DashBoard extends AppCompatActivity implements ImageReceiver.ImageR
 
     }
 
+
+    public void onClick(View view ){
+        switch(view.getId()){
+            case R.id.upload_insta_image_button:
+                Log.d(TAG , "came to insta pic selection click");
+                Intent intent = new Intent(this , UploadImageActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 
     @Override
     public void imageResponse(Bitmap map) {

@@ -134,12 +134,11 @@ class InstagramRecentMediaAsync extends AsyncTask<String , Void , String>{
     protected String doInBackground(String... strings) {
         try {
             URL url = new URL(Constant.INSTA_RECENT_MEDIA_URL + strings[0]);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setReadTimeout(15000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod("GET");
             conn.setDoInput(true);
-            conn.setDoOutput(true);
             int responseCode=conn.getResponseCode();
             Log.d("INSTA API",Integer.toString(responseCode));
             if (responseCode == HttpsURLConnection.HTTP_OK) {
@@ -150,7 +149,6 @@ class InstagramRecentMediaAsync extends AsyncTask<String , Void , String>{
                 StringBuffer sb = new StringBuffer();
                 String line;
                 while((line = in.readLine()) != null) {
-
                     sb.append(line);
                     break;
                 }

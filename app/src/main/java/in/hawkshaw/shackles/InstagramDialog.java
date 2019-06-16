@@ -19,13 +19,7 @@ import android.widget.TextView;
 
 import in.hawkshaw.shackles.model.Constant;
 
-/**
- * Display 37Signals authentication dialog.
- *
- * @author Thiago Locatelli <thiago.locatelli@gmail.com>
- * @author Lorensius W. L T <lorenz@londatiga.net>
- *
- */
+
 public class InstagramDialog extends Dialog {
 
     static final float[] DIMENSIONS_LANDSCAPE = { 460, 260 };
