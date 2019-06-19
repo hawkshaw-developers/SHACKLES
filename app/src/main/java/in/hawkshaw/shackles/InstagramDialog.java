@@ -1,16 +1,18 @@
 package in.hawkshaw.shackles;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -25,14 +27,13 @@ public class InstagramDialog extends Dialog {
     static final float[] DIMENSIONS_LANDSCAPE = { 460, 260 };
     static final float[] DIMENSIONS_PORTRAIT = { 280, 420 };
     static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.FILL_PARENT,
-            ViewGroup.LayoutParams.FILL_PARENT);
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT);
     static final int MARGIN = 4;
     static final int PADDING = 2;
 
     private String mUrl;
     private OAuthDialogListener mListener;
-    private ProgressDialog mSpinner;
     private WebView mWebView;
     private LinearLayout mContent;
     private TextView mTitle;
@@ -50,18 +51,16 @@ public class InstagramDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mSpinner = new ProgressDialog(getContext());
-        mSpinner.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mSpinner.setMessage("Loading...");
         mContent = new LinearLayout(getContext());
         mContent.setOrientation(LinearLayout.VERTICAL);
         setUpTitle();
         setUpWebView();
 
         Display display = getWindow().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+
         final float scale = getContext().getResources().getDisplayMetrics().density;
-        float[] dimensions = (display.getWidth() < display.getHeight()) ? DIMENSIONS_PORTRAIT
+        float[] dimensions = (size.x < size.y) ? DIMENSIONS_PORTRAIT
                 : DIMENSIONS_LANDSCAPE;
 
         addContentView(mContent, new FrameLayout.LayoutParams(
@@ -93,7 +92,7 @@ public class InstagramDialog extends Dialog {
 
     private class OAuthWebViewClient extends WebViewClient {
 
-        @Override
+/*        @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.d(TAG, "Redirecting URL " + url);
 
@@ -106,7 +105,21 @@ public class InstagramDialog extends Dialog {
             }
             return false;
         }
-
+*/
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            String url = request.getUrl().toString();
+            Log.d(TAG, "Redirecting URL " + url);
+            if (url.startsWith(Constant.REDIRECT_URI)) {
+                String urls[] = url.split("=");
+                mListener.onComplete(urls[1]);
+                Log.d(TAG , urls[1]);
+                InstagramDialog.this.dismiss();
+                return true;
+            }
+            return false;
+        }
+/*
         @Override
         public void onReceivedError(WebView view, int errorCode,
                                     String description, String failingUrl) {
@@ -116,13 +129,21 @@ public class InstagramDialog extends Dialog {
             mListener.onError(description);
             InstagramDialog.this.dismiss();
         }
+*/
+        @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            Log.d(TAG, "Page error: " + error.toString());
+            super.onReceivedError(view, request, error);
+            mListener.onError(error.toString());
+            InstagramDialog.this.dismiss();
+
+        }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             Log.d(TAG, "Loading URL: " + url);
 
             super.onPageStarted(view, url, favicon);
-            mSpinner.show();
         }
 
         @Override
@@ -133,7 +154,6 @@ public class InstagramDialog extends Dialog {
                 mTitle.setText(title);
             }
             Log.d(TAG, "onPageFinished URL: " + url);
-            mSpinner.dismiss();
         }
 
     }
